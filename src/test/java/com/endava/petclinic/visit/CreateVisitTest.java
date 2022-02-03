@@ -19,8 +19,11 @@ public class CreateVisitTest extends TestBaseClass{
         //GIVEN
         Owner owner = fixture.createOwner().getOwner();
 
-        PetType petType = new PetType();
-        petType.setId(1L);
+        PetType petType = testDataProvider.getPetType();
+        Response createPetTypeResponse = petTypeClient.createPetType(petType);
+        createPetTypeResponse.then().statusCode (HttpStatus.SC_CREATED).body("id", notNullValue());
+        long petTypeId = createPetTypeResponse.body().jsonPath().getLong("id");
+        petType.setId(petTypeId);
         Pet pet = testDataProvider.getPet(owner, petType);
         Response createPetResponse = petClient.createPet(pet);
         createPetResponse.then().statusCode (HttpStatus.SC_CREATED);
@@ -37,13 +40,45 @@ public class CreateVisitTest extends TestBaseClass{
     }
 
     @Test
+    public void shouldCreateMultipleVisits () {
+
+        //GIVEN
+        Owner owner = fixture.createOwner().getOwner();
+
+        PetType petType = testDataProvider.getPetType();
+        Response createPetTypeResponse = petTypeClient.createPetType(petType);
+        createPetTypeResponse.then().statusCode (HttpStatus.SC_CREATED).body("id", notNullValue());
+        long petTypeId = createPetTypeResponse.body().jsonPath().getLong("id");
+        petType.setId(petTypeId);
+        Pet pet = testDataProvider.getPet(owner, petType);
+        Response createPetResponse = petClient.createPet(pet);
+        createPetResponse.then().statusCode (HttpStatus.SC_CREATED);
+        long petId = createPetResponse.body().jsonPath().getLong("id");
+        pet.setId(petId);
+        Visit visit1 = testDataProvider.getVisit(owner, pet);
+        Visit visit2 = testDataProvider.getVisit(owner, pet);
+
+        //WHEN
+        Response response1 = visitClient.createVisit(visit1);
+        Response response2 = visitClient.createVisit(visit2);
+
+        //THEN
+        response1.then().statusCode (HttpStatus.SC_CREATED);
+        response2.then().statusCode (HttpStatus.SC_CREATED);
+
+    }
+
+    @Test
     public void shouldFailCreateVisitGivenEmptyDate () {
 
         //GIVEN
         Owner owner = fixture.createOwner().getOwner();
 
-        PetType petType = new PetType();
-        petType.setId(1L);
+        PetType petType = testDataProvider.getPetType();
+        Response createPetTypeResponse = petTypeClient.createPetType(petType);
+        createPetTypeResponse.then().statusCode (HttpStatus.SC_CREATED).body("id", notNullValue());
+        long petTypeId = createPetTypeResponse.body().jsonPath().getLong("id");
+        petType.setId(petTypeId);
         Pet pet = testDataProvider.getPet(owner, petType);
         Response createPetResponse = petClient.createPet(pet);
         createPetResponse.then().statusCode (HttpStatus.SC_CREATED);
@@ -66,8 +101,11 @@ public class CreateVisitTest extends TestBaseClass{
         //GIVEN
         Owner owner = fixture.createOwner().getOwner();
 
-        PetType petType = new PetType();
-        petType.setId(1L);
+        PetType petType = testDataProvider.getPetType();
+        Response createPetTypeResponse = petTypeClient.createPetType(petType);
+        createPetTypeResponse.then().statusCode (HttpStatus.SC_CREATED).body("id", notNullValue());
+        long petTypeId = createPetTypeResponse.body().jsonPath().getLong("id");
+        petType.setId(petTypeId);
         Pet pet = testDataProvider.getPet(owner, petType);
         Response createPetResponse = petClient.createPet(pet);
         createPetResponse.then().statusCode (HttpStatus.SC_CREATED);
@@ -90,8 +128,11 @@ public class CreateVisitTest extends TestBaseClass{
         //GIVEN
         Owner owner = fixture.createOwner().getOwner();
 
-        PetType petType = new PetType();
-        petType.setId(1L);
+        PetType petType = testDataProvider.getPetType();
+        Response createPetTypeResponse = petTypeClient.createPetType(petType);
+        createPetTypeResponse.then().statusCode (HttpStatus.SC_CREATED).body("id", notNullValue());
+        long petTypeId = createPetTypeResponse.body().jsonPath().getLong("id");
+        petType.setId(petTypeId);
         Pet pet = testDataProvider.getPet(owner, petType);
         Response createPetResponse = petClient.createPet(pet);
         createPetResponse.then().statusCode (HttpStatus.SC_CREATED);
@@ -114,8 +155,11 @@ public class CreateVisitTest extends TestBaseClass{
         //GIVEN
         Owner owner = fixture.createOwner().getOwner();
 
-        PetType petType = new PetType();
-        petType.setId(1L);
+        PetType petType = testDataProvider.getPetType();
+        Response createPetTypeResponse = petTypeClient.createPetType(petType);
+        createPetTypeResponse.then().statusCode (HttpStatus.SC_CREATED).body("id", notNullValue());
+        long petTypeId = createPetTypeResponse.body().jsonPath().getLong("id");
+        petType.setId(petTypeId);
         Pet pet = testDataProvider.getPet(owner, petType);
         Response createPetResponse = petClient.createPet(pet);
         createPetResponse.then().statusCode (HttpStatus.SC_CREATED);

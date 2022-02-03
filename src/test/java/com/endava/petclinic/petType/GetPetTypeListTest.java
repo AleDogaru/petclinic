@@ -16,22 +16,25 @@ import static org.hamcrest.Matchers.is;
 
 public class GetPetTypeListTest extends TestBaseClass {
 
-   /* @Test
+   @Test
     public void shouldGetPetTypeList() {
         //GIVEN
-        PetType petType = testDataProvider.getPetType();
+       PetType petType = testDataProvider.getPetType();
+       Response createPetTypeResponse = petTypeClient.createPetType(petType);
+       createPetTypeResponse.then().statusCode(HttpStatus.SC_CREATED);
+       Long petTypeId = createPetTypeResponse.body().jsonPath().getLong("id");
 
         //WHEN
-        Response response = ownerClient.getOwnerList();
+        Response response = petTypeClient.getPetTypeList();
 
         //THEN
         response.then().statusCode(HttpStatus.SC_OK)
                 .body("find{ it -> it.id==%s }.name", withArgs(petType), is(petType.getName()));
 
-        Owner actualPetType = response.body().jsonPath().param("id", ).getObject("find{ it -> it.id==id }", PetType.class);
+        PetType actualPetType = response.body().jsonPath().param("id", petTypeId).getObject("find{ it -> it.id==id }", PetType.class);
         assertThat(actualPetType, is(petType));
 
         List<PetType> petTypeList = response.body().jsonPath().getList("", PetType.class);
         assertThat(petTypeList, hasItem(petType));
-    }*/
+    }
 }

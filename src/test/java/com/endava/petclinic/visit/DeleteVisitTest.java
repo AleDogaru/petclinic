@@ -9,6 +9,8 @@ import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.Matchers.notNullValue;
+
 public class DeleteVisitTest extends TestBaseClass {
 
     @Test
@@ -16,8 +18,11 @@ public class DeleteVisitTest extends TestBaseClass {
         //GIVEN
         Owner owner = fixture.createOwner().getOwner();
 
-        PetType petType = new PetType();
-        petType.setId(1L);
+        PetType petType = testDataProvider.getPetType();
+        Response createPetTypeResponse = petTypeClient.createPetType(petType);
+        createPetTypeResponse.then().statusCode (HttpStatus.SC_CREATED).body("id", notNullValue());
+        long petTypeId = createPetTypeResponse.body().jsonPath().getLong("id");
+        petType.setId(petTypeId);
         Pet pet = testDataProvider.getPet(owner, petType);
         Response createPetResponse = petClient.createPet(pet);
         createPetResponse.then().statusCode (HttpStatus.SC_CREATED);
